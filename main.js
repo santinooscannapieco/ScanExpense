@@ -1,7 +1,9 @@
+alert("La idea de la página es que se utilice para registrar los gastos diarios del usuario")
+
 // Datos de cuenta ya creada
 let usuario1 = "cuenta1"
 let contraseña1 = "123"
-
+let gastosTotales1 = 20152
 
 // Funciones
 function signIn() {
@@ -21,7 +23,6 @@ function chequeoCuentas(usuarioIngresado, contraseñaIngresada) {
     }else {
         return respuesta = false
     }
-    
 }
 
 let flujo = "eleccion 1"
@@ -30,6 +31,7 @@ let contraseñaIngresada
 let usuario2
 let contraseña2
 let respuesta
+let arraySignIn
 
 do {
     switch (flujo) {
@@ -44,7 +46,7 @@ do {
                     flujo = "logIn"
                     break
                 default:
-                    alert("No responde la pregunta" )
+                    alert("No responde la pregunta")
                     break
                 case null:
                     flujo = "salir"
@@ -52,21 +54,57 @@ do {
             }
             break
         case "signIn":
-            alert("registrate")
+            alert("Ingresá los siguientes datos para registrarte")
             arraySignIn = signIn()
             flujo = "logIn"
             break
         case "logIn":
-            alert("inicia sesion")
+            alert("Ingresá los siguientes datos para inicia sesion")
             arrayLogIn = logIn()
             
             respuesta = chequeoCuentas(arrayLogIn[0],arrayLogIn[1])
-            if (respuesta == true) { flujo = "bienvenido"}else { flujo = "eleccion 1"}
+            if (respuesta == true) {
+                 flujo = "bienvenido"
+            }else { 
+                alert("El usuario y contraseña no coinciden") 
+                flujo = "eleccion 1"
+            }
             break
         case "bienvenido":
             alert("Bienvenido " + arrayLogIn[0])
-            flujo = "salir"
+            flujo = "eleccion 2"
             break
-        
+        case "eleccion 2":
+            let eleccion2 = prompt("Elegí que queres hacer\n1. Ver mis gastos\n2. Agregar nueva categoria\n3. Agregar nuevo gasto\n4. Cerrar sesión\n5. Salir")
+
+            switch(eleccion2) {
+                case "1":
+                    // Ver gastos x categorias
+                    alert("Hasta ahí tengo profe")
+                    break
+                case "2":
+                    // Agregar categorias nuevas
+                    alert("Hasta ahí tengo profe")
+                    break
+                case "3":
+                    // agregar gasto nuevo
+                    alert("Tengo hasta ahí profe")
+                    break
+                case "4":
+                    // cerrar sesion
+                    flujo = "eleccion 1"
+                    break
+                case "5":
+                    // salir
+                    flujo = "salir"
+                    break
+                default:
+                    alert("No responde la pregunta")
+                    break
+            }
+        break
+        case "salir":
+            //alert("¿Seguro que queres salir?")
+            break
     }
 }while (flujo != "salir")
