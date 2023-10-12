@@ -1,7 +1,6 @@
 alert("La idea de la página es que se utilice para registrar los gastos diarios del usuario")
 
 // Clase Usuario con sus metodos
-
 class Usuario {
     constructor(nombre, password, categorias, gastos) {
         this.nombre = nombre
@@ -137,8 +136,9 @@ do {
                     // Agregar gasto nuevo
                     // PROXIMA ENTREGA: AGREGAR QUE EL GASTO SE PONGA A UNA CATEGORIA ESPECÍFICA
                     newGasto = parseInt(prompt("Agregar gasto nuevo"))
+                    console.log(newGasto)
                     if(newGasto > 0 && newGasto < 500000) {
-                        user.sumarGasto()
+                        user.sumarGasto(newGasto)
                     }else {
                         alert("Ese monto no está disponible")
                     }
