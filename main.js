@@ -50,11 +50,14 @@ function chequeoCuentas(usuarioIngresado, contraseñaIngresada) {
     }else if(usuarioIngresado === cuenta2.nombre && contraseñaIngresada === cuenta2.password) {
         user = cuenta2
         return [ true, user ]
-    }else if(usuarioIngresado === arraySignIn.nombre && contraseñaIngresada === arraySignIn.password){
-        asds
     }else {
-        return false
+        return [ false ]
     }
+
+
+    /* else if(usuarioIngresado === arraySignIn.nombre && contraseñaIngresada === arraySignIn.password){
+        
+    } */
 }
 
 let flujo = "eleccion 1"
