@@ -1,15 +1,40 @@
 alert("La idea de la página es que se utilice para registrar los gastos diarios del usuario")
 
-// Datos de cuenta ya creada
-let usuario1 = "cuenta1"
-let contraseña1 = "123"
-let gastosTotales1 = 20152
+// Clase Usuario con sus metodos
+
+class Usuario {
+    constructor(nombre, password, categorias, gastos) {
+        this.nombre = nombre
+        this.password = password
+        this.categorias = categorias
+        this.gastoTotal = gastos
+        
+    }
+
+    sumarCategoria(newCategoria) {
+        this.categorias.push(newCategoria)
+        console.log(this.categorias)
+    }
+    restarCategoria() {    }
+
+    sumarGasto(newGasto) {
+        this.gastoTotal += newGasto
+    }
+    restarGasto() {    }
+}
+
+
+// Datos de cuentas ya creada
+const cuenta1 = new Usuario("cuenta1", "123", ["Comida", "Regalos"], 20152)
+const cuenta2 = new Usuario("cuenta2", "047", ["Salidas", "Ropa"], 52000)
+
 
 // Funciones
 function signIn() {
     let usuarioNuevo = prompt("Ingrese un usuario")
     let contraseñaNueva = prompt("Ingrese una contraseña")
-    return [ usuarioNuevo, contraseñaNueva ]
+
+    return new Usuario(usuarioNuevo, contraseñaNueva, [], 0)
 }
 function logIn() {
     let usuarioIngresado = prompt("Ingrese su usuario")
@@ -17,11 +42,16 @@ function logIn() {
     return [ usuarioIngresado, contraseñaIngresada ]
 }
 function chequeoCuentas(usuarioIngresado, contraseñaIngresada) {
-    let respuesta
-    if ((usuarioIngresado == usuario1 && contraseñaIngresada == contraseña1) || (usuarioIngresado == arraySignIn[0] && contraseñaIngresada == arraySignIn[1])) {
-        return respuesta = true
+    if (usuarioIngresado === cuenta1.nombre && contraseñaIngresada === cuenta1.password) {
+        user = cuenta1
+        return [ true, user ]
+    }else if(usuarioIngresado === cuenta2.nombre && contraseñaIngresada === cuenta2.password) {
+        user = cuenta2
+        return [ true, user ]
+    }else if(usuarioIngresado === arraySignIn.nombre && contraseñaIngresada === arraySignIn.password){
+        asds
     }else {
-        return respuesta = false
+        return false
     }
 }
 
@@ -32,6 +62,9 @@ let usuario2
 let contraseña2
 let respuesta
 let arraySignIn
+let arrayLogIn
+
+let user
 
 do {
     switch (flujo) {
@@ -54,41 +87,61 @@ do {
             }
             break
         case "signIn":
-            alert("Ingresá los siguientes datos para registrarte")
-            arraySignIn = signIn()
-            flujo = "logIn"
+            /* alert("Ingresá los siguientes datos para registrarte")
+            arraySignIn = signIn() 
+            flujo = "logIn" */
+
+            alert("Todavía no está disponible hacer un nuevo registro")
+
+            flujo = "eleccion 1"
             break
         case "logIn":
             alert("Ingresá los siguientes datos para inicia sesion")
             arrayLogIn = logIn()
             
-            respuesta = chequeoCuentas(arrayLogIn[0],arrayLogIn[1])
-            if (respuesta == true) {
-                 flujo = "bienvenido"
+            // Mando usuario ingresado y contraseña ingresada y recibo en respuesta[0] si la cuenta existe y en respuesta[1] el usuario con todos los datos
+            respuesta = chequeoCuentas(arrayLogIn[0], arrayLogIn[1])
+            if (respuesta[0] == true) {
+                flujo = "bienvenido"
             }else { 
                 alert("El usuario y contraseña no coinciden") 
                 flujo = "eleccion 1"
             }
+            user = respuesta[1]
             break
         case "bienvenido":
-            alert("Bienvenido " + arrayLogIn[0])
+            alert("Bienvenido " + user.nombre)
             flujo = "eleccion 2"
             break
         case "eleccion 2":
-            let eleccion2 = prompt("Elegí que queres hacer\n1. Ver mis gastos\n2. Agregar nueva categoria\n3. Agregar nuevo gasto\n4. Cerrar sesión\n5. Salir")
+            let eleccion2 = prompt(`Elegí que queres hacer ${user.nombre} \n1. Ver mis gastos\n2. Agregar nueva categoria\n3. Agregar nuevo gasto\n4. Cerrar sesión\n5. Salir`)
 
             switch(eleccion2) {
                 case "1":
                     // Ver gastos x categorias
-                    alert("Hasta ahí tengo profe")
+                    alert("$" + user.gastoTotal)
                     break
                 case "2":
+                    // Ver categorias
                     // Agregar categorias nuevas
-                    alert("Hasta ahí tengo profe")
+                    cadena = user.categorias.join("\n")
+                    newCategoria = prompt( cadena )
+
+                    if (newCategoria != "" && newCategoria != null) {
+                        user.sumarCategoria(newCategoria)
+                    }else {
+                        alert("No completaste el campo")
+                    }
                     break
                 case "3":
-                    // agregar gasto nuevo
-                    alert("Tengo hasta ahí profe")
+                    // Agregar gasto nuevo
+                    // PROXIMA ENTREGA: AGREGAR QUE EL GASTO SE PONGA A UNA CATEGORIA ESPECÍFICA
+                    newGasto = parseInt(prompt("Agregar gasto nuevo"))
+                    if(newGasto > 0 && newGasto < 500000) {
+                        user.sumarGasto()
+                    }else {
+                        alert("Ese monto no está disponible")
+                    }
                     break
                 case "4":
                     // cerrar sesion
@@ -100,6 +153,9 @@ do {
                     break
                 default:
                     alert("No responde la pregunta")
+                    break
+                case null:
+                    flujo = "salir"
                     break
             }
         break
