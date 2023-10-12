@@ -1,4 +1,7 @@
-alert("La idea de la página es que se utilice para registrar los gastos diarios del usuario")
+alert(`La página es para que el usuario registre sus gastos diarios
+Usuarios disponibles:
+cuenta1 123
+cuenta2 047`)
 
 // Clase Usuario con sus metodos
 class Usuario {
