@@ -7,11 +7,14 @@ class Usuario {
     }
 
     sumarCategoria(clave, valor) {
-        this.categorias[clave] = valor
+        if (this.categorias.hasOwnProperty(clave)) {
+            this.categorias[clave] += valor
+        } else {
+            this.categorias[clave] = valor
+        }
         this.gastoTotal = this.sumarGasto(this.categorias)
         console.log(this.categorias)
     }
-    restarCategoria() {    }
 
     sumarGasto(categorias) {
         let suma = 0
@@ -75,7 +78,7 @@ function guardarNombre() {
     }
 
     console.log(nombre)
-    usuario = new Usuario(nombre, {"salidas": 2000, "ropa": 5000, "comida": 10000})
+    usuario = new Usuario(nombre, {})
     mostrarMenu()
 }
 
@@ -94,6 +97,7 @@ function verCategorias() {
             allowEnterKey: false,
             showConfirmButton: false
         })
+        return
     } else {
         for (let categoria in categorias) {
             categoriasHTML += `<p>${categoria}: ${categorias[categoria]}</p>`
@@ -170,15 +174,16 @@ function agregarGasto() {
                             <button id="crearGastoBtn">Crear gasto</button><br>
                             <button id="volver">Volver</button>`;
 
+
+
     document.getElementById('crearGastoBtn').addEventListener('click', function() {
         let categoriaSeleccionada = document.getElementById('categoriasSelect').value
         let gastoNuevo = parseInt(document.getElementById('gastoNuevo').value)
 
         if (categoriaSeleccionada != '' && !isNaN(gastoNuevo)) {
-            // Actualizar el gasto en la categoría seleccionada
             usuario.sumarCategoria(categoriaSeleccionada, gastoNuevo)
             mostrarMenu()
-        } else {
+        }else {
             Swal.fire({
                 icon: 'warning',
                 text: 'Los datos ingresados no son válidos',
