@@ -3,26 +3,32 @@ class Usuario {
     constructor(nombre, categorias) {
         this.nombre = nombre
         this.categorias = categorias
-        this.gastoTotal = this.sumarGasto(categorias)
+        this.gastoTotal = this.sumarGastoTotal(categorias)
     }
 
-    sumarCategoria(clave, valor) {
-        if (this.categorias.hasOwnProperty(clave)) {
-            this.categorias[clave] += valor
-        } else {
-            this.categorias[clave] = valor
-        }
-        this.gastoTotal = this.sumarGasto(this.categorias)
+    sumarCategoria(clave, valor) {            
+        let nuevaCategoria = {}
+        nuevaCategoria[clave] = valor
+        this.categorias.push(nuevaCategoria)
+        this.gastoTotal = this.sumarGastoTotal(this.categorias)
         console.log(this.categorias)
     }
 
-    sumarGasto(categorias) {
+    sumarGastoCat(clave, valor) {
+        for (let categoria of this.categorias) {
+            if (categoria.hasOwnProperty(clave)) {
+                categoria[clave] += valor
+                break
+            }
+        }
+        this.gastoTotal = this.sumarGastoTotal(this.categorias)
+    }
+
+    sumarGastoTotal(categorias) {
         let suma = 0
 
-        for (let clave in categorias) {
-            if (categorias.hasOwnProperty(clave)) {
-                suma += categorias[clave]
-            }
+        for (let categoria of categorias) {
+            suma += Object.values(categoria)[0]
         }
         return suma
     }
@@ -38,26 +44,22 @@ let contenedor = document.createElement('div')
 contenedor.id = 'contenedor'
 document.body.appendChild(contenedor)
 
+
+let datos = JSON.parse(localStorage.getItem("usuario")) || ''
+
+if(datos === '') {
+    mostrarInicio()
+}else {
+    usuario = new Usuario(datos.nombre, datos.categorias)
+    mostrarMenu()
+}
+
 function mostrarInicio() {
     contenedor.innerHTML = `<h3>Ingresa tu nombre</h3>
                             <input id="nombre" placeholder="Nombre">
                             <button id="btn">Guardar nombre</button>`
 
     document.getElementById('btn').addEventListener('click', guardarNombre)
-}
-
-function mostrarMenu() {
-    contenedor.innerHTML = `<h3>Bienvenido, ${usuario.nombre}!</h3>
-                            <p>Elija una de las opciones para avanzar</p>
-                            <p>Gastos Totales: ${usuario.gastoTotal}</p>
-                            <button id="verCat">Ver Categorías</button>
-                            <button id="agregarCat">Agregar categoría nueva</button>
-                            <button id="agregarGasto">Agregar gasto nuevo</button>`
-
-    document.getElementById('verCat').addEventListener('click', verCategorias)
-    document.getElementById('agregarCat').addEventListener('click', agregarCategoria)
-    document.getElementById('agregarGasto').addEventListener('click', agregarGasto)
-
 }
 
 function guardarNombre() {
@@ -78,15 +80,30 @@ function guardarNombre() {
     }
 
     console.log(nombre)
-    usuario = new Usuario(nombre, {})
+    usuario = new Usuario(nombre, [])
+    guardarLocalStorage("usuario", JSON.stringify(usuario))
     mostrarMenu()
 }
 
+function mostrarMenu() {
+    contenedor.innerHTML = `<h3>Bienvenido, ${usuario.nombre}!</h3>
+                            <p>Elija una de las opciones para avanzar</p>
+                            <p>Gastos Totales: $ ${usuario.gastoTotal}</p>
+                            <button id="verCat">Ver Categorías</button>
+                            <button id="agregarCat">Agregar categoría nueva</button>
+                            <button id="agregarGasto">Agregar gasto nuevo</button>`
+
+    document.getElementById('verCat').addEventListener('click', verCategorias)
+    document.getElementById('agregarCat').addEventListener('click', agregarCategoria)
+    document.getElementById('agregarGasto').addEventListener('click', agregarGasto)
+
+}
+
 function verCategorias() {
-    let categorias = usuario.obtenerCategorias()
+    let categorias = usuario.categorias
     let categoriasHTML = ''
 
-    if (Object.keys(categorias).length === 0) {
+    if (categorias.length === 0) {
         Swal.fire({
             icon: 'warning',
             text: 'No tenes categorias creadas',
@@ -99,8 +116,10 @@ function verCategorias() {
         })
         return
     } else {
-        for (let categoria in categorias) {
-            categoriasHTML += `<p>${categoria}: ${categorias[categoria]}</p>`
+        for (let categoria of categorias) {
+            for (let clave in categoria) {
+                categoriasHTML += `<p>${clave}: $ ${categoria[clave]}</p>`
+            }
         }
     }
 
@@ -141,6 +160,8 @@ function agregarCategoria() {
 
         if (nombreCat && !isNaN(gastoCat)) {
             usuario.sumarCategoria(nombreCat, gastoCat)
+            guardarLocalStorage("usuario", JSON.stringify(usuario))
+
             mostrarMenu()
         } else {
             Swal.fire({
@@ -156,15 +177,18 @@ function agregarCategoria() {
         }
     })
 
+
     document.getElementById('volver').addEventListener('click', mostrarMenu)
 }
 
 function agregarGasto() {
-    let categorias = usuario.obtenerCategorias()
+    let categorias = usuario.categorias
     let categoriasSelectHTML = `<option value="">Categorias</option>`
     
-    for (let categoria in categorias) {
-        categoriasSelectHTML += `<option value="${categoria}">${categoria}</option>`
+    for (let categoria of categorias) {
+        for (let clave in categoria) {
+            categoriasSelectHTML += `<option value="${clave}">${clave}</option>`
+        }
     }
 
     contenedor.innerHTML = `<h3>Agregar gasto nuevo</h3>
@@ -172,7 +196,7 @@ function agregarGasto() {
                             <select id="categoriasSelect">${categoriasSelectHTML}</select>
                             <input id="gastoNuevo" placeholder="Gasto">
                             <button id="crearGastoBtn">Crear gasto</button><br>
-                            <button id="volver">Volver</button>`;
+                            <button id="volver">Volver</button>`
 
 
 
@@ -181,7 +205,9 @@ function agregarGasto() {
         let gastoNuevo = parseInt(document.getElementById('gastoNuevo').value)
 
         if (categoriaSeleccionada != '' && !isNaN(gastoNuevo)) {
-            usuario.sumarCategoria(categoriaSeleccionada, gastoNuevo)
+            usuario.sumarGastoCat(categoriaSeleccionada, gastoNuevo)
+            guardarLocalStorage("usuario", JSON.stringify(usuario))
+
             mostrarMenu()
         }else {
             Swal.fire({
@@ -193,11 +219,13 @@ function agregarGasto() {
                 allowEscapeKey: false,
                 allowEnterKey: false,
                 showConfirmButton: false
-            });
+            })
         }
-    });
-
+    })
     document.getElementById('volver').addEventListener('click', mostrarMenu)
 }
 
-mostrarInicio()
+
+function guardarLocalStorage(clave,valor) {
+    localStorage.setItem(clave, valor)
+}
