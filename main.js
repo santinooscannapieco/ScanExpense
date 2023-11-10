@@ -39,14 +39,13 @@ class Usuario {
     }
 }
 
+let users
 let usuario
 let contenedor = document.createElement('div')
 contenedor.id = 'contenedor'
 document.body.appendChild(contenedor)
 
 let traerUsuario = JSON.parse(localStorage.getItem("usuarioLoggeado")) || ''
-
-//traerUsuario === '' ? mostrarInicio() :  usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias), mostrarMenu()
 
 if ( traerUsuario === '' ) {
     mostrarInicio()
@@ -62,7 +61,7 @@ function mostrarInicio() {
                             <button id="logIn">logIn</button>
                             <button id="signIn">signIn</button>`
 
-    // creo los eventos
+    // Creo los eventos
     document.getElementById("logIn").addEventListener("click", logIn)
     document.getElementById("signIn").addEventListener("click", signIn)
 }
@@ -84,26 +83,26 @@ function crearCuenta() {
     let password = document.getElementById('password').value
 
     // Comprobar si ya existe un usuario con el mismo nombre
-    let users = JSON.parse(localStorage.getItem('users')) || []
+    users = JSON.parse(localStorage.getItem('users')) || []
     let existingUser = users.find(function(user) {
         return user.username === username
     })
 
     if (existingUser) {
-        mostrarAlert('error', 'El usuario ya existe. Por favor, elige otro nombre de usuario.', 2000)
+        mostrarAlert('error', 'El usuario ya existe. Por favor, elige otro nombre de usuario.', 1000)
         return
     } else if (username && password){
         // Si el usuario no existe, lo registramos
         usuario = new Usuario(username, password, [], 0)
-        localStorage.setItem('usuarioLoggeado', JSON.stringify(usuario))
+        guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
 
         users.push(usuario)
 
-        localStorage.setItem('users', JSON.stringify(users))
+        guardarLocalStorage('users', JSON.stringify(users))
         mostrarMenu()
-        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 2000)
+        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 1000)
     } else {
-        mostrarAlert('warning', 'Completa los campos', 2000)
+        mostrarAlert('warning', 'Completa los campos', 1000)
     }
 }
 
@@ -125,21 +124,36 @@ function chequearCuenta() {
     let loginPassword = document.getElementById('loginPassword').value
 
     // Obtener usuarios almacenados en localStorage
-    let users = JSON.parse(localStorage.getItem('users')) || []
+    users = JSON.parse(localStorage.getItem('users')) || []
     let loggedInUser = users.find(function(user) {
         return user.username === loginUsername && user.password === loginPassword
     })
 
     if (loggedInUser) {
         usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias)
-        localStorage.setItem('usuarioLoggeado', JSON.stringify(usuario))
-        console.log('Usuario actual:', usuario)
+        guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
+        //console.log('Usuario actual:', usuario)
         mostrarMenu()
-        alert('Inicio de sesión exitoso.')
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: 'Inicio de sesión exitoso.'
+          });
+        //mostrarAlert('success', 'Inicio de sesión exitoso.', 1000)
     } else if (loginUsername && loginPassword){
         mostrarAlert('error', 'Credenciales incorrectas. Por favor, inténtalo de nuevo.', 0)
     } else {
-        mostrarAlert('warning', 'Completa los campos', 2000)
+        mostrarAlert('warning', 'Completa los campos', 1000)
     }
 }
 
@@ -149,12 +163,17 @@ function mostrarMenu() {
                             <p>Gastos Totales: $ ${usuario.gastoTotal}</p>
                             <button id="verCat">Ver Categorías</button>
                             <button id="agregarCat">Agregar categoría nueva</button>
-                            <button id="agregarGasto">Agregar gasto nuevo</button>`
+                            <button id="agregarGasto">Agregar gasto nuevo</button>
+                            <button id="cerrarSesion">Cerrar sesión</button>`
 
     document.getElementById('verCat').addEventListener('click', verCategorias)
     document.getElementById('agregarCat').addEventListener('click', agregarCategoria)
     document.getElementById('agregarGasto').addEventListener('click', agregarGasto)
-
+    document.getElementById('cerrarSesion').addEventListener('click', () => {
+        localStorage.removeItem('usuarioLoggeado')
+        mostrarInicio()
+        // mostrarAlert('question', 'Seguro queres salir', 0)
+    })
 }
 
 function verCategorias() {
@@ -162,7 +181,7 @@ function verCategorias() {
     let categoriasHTML = ''
 
     if (categorias.length === 0) {
-        mostrarAlert('warning', 'No tenes categorias creadas', 2000)
+        mostrarAlert('warning', 'No tenes categorias creadas', 1000)
         return
     } else {
         for (let categoria of categorias) {
@@ -196,11 +215,9 @@ function agregarCategoria() {
         })
 
         if (existingCategorias) {
-            mostrarAlert('warning', 'Esa categoria ya existe', 2000)
+            mostrarAlert('warning', 'Esa categoria ya existe', 1000)
             return
         }
-        
-
 
         if (nombreCat && !isNaN(gastoCat)) {
             usuario.sumarCategoria(nombreCat, gastoCat)
@@ -208,7 +225,7 @@ function agregarCategoria() {
 
             mostrarMenu()
         } else {
-            mostrarAlert('warning', 'Completá todos los campos por favor', 2000)
+            mostrarAlert('warning', 'Completá todos los campos por favor', 1000)
         }
     })
     document.getElementById('volver').addEventListener('click', mostrarMenu)
@@ -240,10 +257,9 @@ function agregarGasto() {
         if (categoriaSeleccionada != '' && !isNaN(gastoNuevo)) {
             usuario.sumarGastoCat(categoriaSeleccionada, gastoNuevo)
             guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
-
             mostrarMenu()
         }else {
-            mostrarAlert('warning', 'Los datos ingresados no son válidos', 2000)
+            mostrarAlert('warning', 'Los datos ingresados no son válidos', 1000)
         }
     })
     document.getElementById('volver').addEventListener('click', mostrarMenu)
@@ -251,6 +267,22 @@ function agregarGasto() {
 
 function guardarLocalStorage(clave,valor) {
     localStorage.setItem(clave, valor)
+
+    let users = JSON.parse(localStorage.getItem('users')) || []
+    let indexUsuarioLoggeado = users.findIndex( function(user) {
+        return user.username === usuario.username
+    })
+    
+    console.log('index', indexUsuarioLoggeado)
+
+    if (indexUsuarioLoggeado !== -1) {
+        users[indexUsuarioLoggeado].categorias = usuario.categorias
+        users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
+
+        localStorage.setItem('users', JSON.stringify(users))
+    } else {
+        console.error('no encontramos usuario')
+    }
 }
 
 function mostrarAlert(icono, texto, tiempo) {
