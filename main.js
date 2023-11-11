@@ -48,6 +48,7 @@ class Usuario {
     }
 }
 
+/*          TRAER PRECIO DOLAR
 let url = 'https://v6.exchangerate-api.com/v6/6eed10f6e4f651030ac76430/latest/USD'
 fetch(url)
     .then((response) => response.json())
@@ -55,6 +56,7 @@ fetch(url)
         console.log(json)
         //pantallaDivisas(json)
     })
+*/
 
 let users
 let usuario
@@ -64,12 +66,7 @@ document.body.appendChild(contenedor)
 
 let traerUsuario = JSON.parse(localStorage.getItem("usuarioLoggeado")) || ''
 
-if ( traerUsuario === '' ) {
-    mostrarInicio()
-} else {
-    usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias, traerUsuario.gastos)
-    mostrarMenu()
-}
+traerUsuario === '' ? ( mostrarInicio() ) : ( usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias, traerUsuario.gastos), mostrarMenu() )
 
 console.log(traerUsuario)
 
@@ -175,9 +172,20 @@ function chequearCuenta() {
 }
 
 function mostrarMenu() {
+    let gastos = usuario.gastos
+    let gastosHTML = ''
+
+    if(gastos.length !== 0) {
+        for (let gasto of gastos) {
+            for (let clave in gasto) {
+                gastosHTML += `<p>${clave}: $ ${gasto[clave]}</p>`
+            }
+        }
+    }
     contenedor.innerHTML = `<h3>Bienvenido, ${usuario.username}!</h3>
                             <p>Elija una de las opciones para avanzar</p>
                             <p>Gastos Totales: $ ${usuario.gastoTotal}</p>
+                            ${gastosHTML}
                             <button id="verCat">Ver Categorías</button>
                             <button id="agregarCat">Agregar categoría nueva</button>
                             <button id="agregarGasto">Agregar gasto nuevo</button>
@@ -186,10 +194,8 @@ function mostrarMenu() {
     document.getElementById('verCat').addEventListener('click', verCategorias)
     document.getElementById('agregarCat').addEventListener('click', agregarCategoria)
     document.getElementById('agregarGasto').addEventListener('click', agregarGasto)
-    document.getElementById('cerrarSesion').addEventListener('click', () => {
-        localStorage.removeItem('usuarioLoggeado')
-        mostrarInicio()
-        // mostrarAlert('question', 'Seguro queres salir', 0)
+    document.getElementById('cerrarSesion').addEventListener('click', () => {        
+        confirm('¿Seguro queres salir?') && (localStorage.removeItem('usuarioLoggeado'), mostrarInicio())
     })
 }
 
