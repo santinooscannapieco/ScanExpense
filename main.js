@@ -1,10 +1,11 @@
 // Clase Usuario con sus metodos
 class Usuario {
-    constructor(username, password, categorias) {
+    constructor(username, password, categorias, gastos) {
         this.username = username
         this.password = password
         this.categorias = categorias
         this.gastoTotal = this.sumarGastoTotal(categorias)
+        this.gastos = gastos
     }
 
     sumarCategoria(clave, valor) {            
@@ -22,6 +23,8 @@ class Usuario {
             }
         }
         this.gastoTotal = this.sumarGastoTotal(this.categorias)
+
+        this.guardarGastos(clave, valor)
     }
 
     sumarGastoTotal(categorias) {
@@ -34,10 +37,24 @@ class Usuario {
     }
     restarGasto() {    }
 
+    guardarGastos(clave, valor) {
+        let nuevoGasto = {}
+        nuevoGasto[clave] = valor
+        this.gastos.push(nuevoGasto)
+    }
+
     obtenerCategorias() {
         return this.categorias
     }
 }
+
+let url = 'https://v6.exchangerate-api.com/v6/6eed10f6e4f651030ac76430/latest/USD'
+fetch(url)
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json)
+        //pantallaDivisas(json)
+    })
 
 let users
 let usuario
@@ -50,7 +67,7 @@ let traerUsuario = JSON.parse(localStorage.getItem("usuarioLoggeado")) || ''
 if ( traerUsuario === '' ) {
     mostrarInicio()
 } else {
-    usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias)
+    usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias, traerUsuario.gastos)
     mostrarMenu()
 }
 
@@ -93,7 +110,7 @@ function crearCuenta() {
         return
     } else if (username && password){
         // Si el usuario no existe, lo registramos
-        usuario = new Usuario(username, password, [], 0)
+        usuario = new Usuario(username, password, [], [])
         guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
 
         users.push(usuario)
@@ -130,7 +147,7 @@ function chequearCuenta() {
     })
 
     if (loggedInUser) {
-        usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias)
+        usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias, loggedInUser.gastos)
         guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
         //console.log('Usuario actual:', usuario)
         mostrarMenu()
@@ -278,6 +295,7 @@ function guardarLocalStorage(clave,valor) {
     if (indexUsuarioLoggeado !== -1) {
         users[indexUsuarioLoggeado].categorias = usuario.categorias
         users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
+        users[indexUsuarioLoggeado].gastos = usuario.gastos
 
         localStorage.setItem('users', JSON.stringify(users))
     } else {
