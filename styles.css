@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+  }
+
+#contenedor {
+    position: relative;
+    font-family: Montserrat, sans-serif;
+    background-color: #ECE3CE;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px 40px;
+    background-color: #4F6F52;
+}
+
+#header #logo {
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 150px;
+}
+
+#header #container-logInSignIn #btnLogIn {
+    padding-right: 5px;
+    padding-left: 5px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+}
+
+#header #container-logInSignIn #btnSignIn {
+    padding-right: 5px;
+    padding-left: 5px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+}
+
+#info-index {
+    padding: 50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#info-index #titulo-index {
+    color: #4F6F52;
+    font-size: 50px;
+}
+
+#info-index #texto-principal-index {
+    margin: 0 200px;
+    font-size: 20px;
+
+}
+
+#info-index #container-texto-secundario-index {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    padding: 100px 0;
+    width: 1075px;
+}
+
+#info-index #container-texto-secundario-index #texto-secundario-index {
+    width: 500px;
+    margin: 0 25px;
+    text-align: left;
+}
+
+#info-index #container-texto-secundario-index #texto-secundario-index h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+#info-index #container-texto-secundario-index #texto-secundario-index p {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#info-index #container-texto-secundario-index #img-index-horizontal {
+    width: 500px;
+    margin: 0 25px;
+    border-radius: 20px;
+}
+
+#info-index #container-texto-secundario-index #img-index-vertical {
+    width: 350px;
+    margin: 0 100px;
+    border-radius: 20px;
+}
+
+#footer {
+    width: 100%;
+    background-color: #3A4D39;
+    color: white;
+    padding: 10px 0;
+}
+
+#footer #container-texto-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+#footer #container-texto-footer p {
+    margin: 10px 100px;
+}
+
+#footer #container-texto-footer a {
+    margin: 5px 25px;
+    color: white;
+    text-decoration: underline;
+}

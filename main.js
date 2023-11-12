@@ -71,13 +71,53 @@ traerUsuario === '' ? ( mostrarInicio() ) : ( usuario = new Usuario(traerUsuario
 console.log(traerUsuario)
 
 function mostrarInicio() {
-    contenedor.innerHTML = `<h1>BIENVENIDO</h1>
-                            <button id="logIn">logIn</button>
-                            <button id="signIn">signIn</button>`
+    contenedor.innerHTML = `<header id="header">
+                                <img src="./img/logo_transparent.png" alt="" id="logo">
+                                <div id="container-logInSignIn">
+                                    <button id="btnLogIn">INICIAR SESIÓN</button>
+                                    <button id="btnSignIn">REGÍSTRATE AHORA</button>
+                                </div>
+                            </header>
+                            <div id="info-index">
+                                <h1 id="titulo-index">Bienvenido a ScanExpence</h1>
+                                <p id="texto-principal-index">Gestiona tus finanzas de manera sencilla y eficiente con ScanExpence. Nuestra plataforma te ofrece la herramienta perfecta para llevar un registro detallado de tus gastos, proporcionándote un control total sobre tus finanzas personales.</p>
+                                <div id="container-texto-secundario-index"> 
+                                    <div id="texto-secundario-index">
+                                        <h2>Registro Fácil de Gastos</h2>
+                                        <p>Nos enorgullece ofrecer un proceso de registro de gastos que es tan sencillo como útil. Olvídate de tediosas formas y complicados procedimientos; hemos diseñado una interfaz amigable que te permite ingresar tus gastos de manera rápida y eficiente. Ya sea que estés comprando comestibles, pagando facturas mensuales o registrando gastos inesperados, nuestro sistema simplifica el proceso. Solo necesitas unos pocos clics para ingresar la información esencial, como la cantidad gastada, la fecha y una breve descripción</p>
+                                    </div>
+                                    <img src="./img/primer-plano-persona-casa.jpg" alt="" id="img-index-horizontal">
+                                </div>
+                                <div id="container-texto-secundario-index"> 
+                                    <img src="./img/mujer-joven-gafas-calcula-facturas.jpg" alt="" id="img-index-horizontal">
+                                    <div id="texto-secundario-index">
+                                        <h2>Categorización Inteligente:</h2>
+                                        <p>Entendemos que organizar tus gastos puede ser un desafío. Es por eso que hemos implementado la Categorización Inteligente, una característica diseñada para simplificar y agilizar la gestión de tus finanzas personales. Cuando registras un gasto, nuestro sistema utiliza algoritmos avanzados para analizar la información y asignar automáticamente una categoría relevante.</p>
+                                    </div>
+                                </div>
+                                <div id="container-texto-secundario-index"> 
+                                    <div id="texto-secundario-index">
+                                        <h2>Análisis Visual:</h2>
+                                        <p>Creemos en la importancia de comprender tus finanzas de un vistazo. Es por eso que hemos incorporado una potente herramienta de Análisis Visual, diseñada para transformar tus datos financieros en representaciones gráficas claras y significativas. Una vez que hayas registrado tus gastos, nuestro sistema genera gráficos interactivos que visualizan tus patrones de gasto de manera intuitiva. Esta característica no solo hace que la gestión financiera sea más accesible, sino que también te empodera para tomar decisiones informadas. Ya sea planificando ahorros, ajustando tu presupuesto o estableciendo metas financieras, el Análisis Visual de ScanExpence te proporciona la claridad que necesitas para alcanzar el control total de tus finanzas. <b>¡Regístrate ahora y descubre el poder de visualizar tu camino hacia el éxito financiero!</b></p>
+                                    </div>
+                                    <img src="./img/oficinistas-graficos.jpg" alt="" id="img-index-vertical">
+                                </div>
+                            </div>
+                            <footer id="footer">
+                                <div id="container-texto-footer">
+                                    <p>info@scanexpence.com.ar</p>
+                                    <p>soporte@scanexpence.com.ar</p>
+                                    <p>+54 9 11 3549-5743</p>
+                                </div>
+                                <div id="container-texto-footer">
+                                    <a href="">Terminos y condiciones</a>
+                                    <a href="">Politica de privacidad</a>
+                                </div>
+                            </footer>`
 
     // Creo los eventos
-    document.getElementById("logIn").addEventListener("click", logIn)
-    document.getElementById("signIn").addEventListener("click", signIn)
+    document.getElementById("btnLogIn").addEventListener("click", logIn)
+    document.getElementById("btnSignIn").addEventListener("click", signIn)
 }
 
 function signIn() {
@@ -85,11 +125,11 @@ function signIn() {
                             <input id="username" placeholder="Nombre" required>    
                             <input id="password" placeholder="Password" required>
 
-                            <button id="botonRegistrar">Registrarme</button>
-                            <button id="botonVolver">Volver</button>`
+                            <button id="btnRegistrar">Registrarme</button>
+                            <button id="btnVolver">Volver</button>`
 
-    document.getElementById("botonRegistrar").addEventListener("click", crearCuenta)
-    document.getElementById("botonVolver").addEventListener("click", mostrarInicio)
+    document.getElementById("btnRegistrar").addEventListener("click", crearCuenta)
+    document.getElementById("btnVolver").addEventListener("click", mostrarInicio)
 }
 
 function crearCuenta() {
@@ -126,11 +166,11 @@ function logIn() {
                             <input id="loginUsername" placeholder="Nombre" required>
                             <input id="loginPassword" placeholder="Password" required>
           
-                            <button id="botonLogIn">Iniciar sesión</button>
-                            <button id="botonVolver">Volver</button>`
+                            <button id="btnLogIn">Iniciar sesión</button>
+                            <button id="btnVolver">Volver</button>`
 
-    document.getElementById("botonLogIn").addEventListener("click", chequearCuenta)
-    document.getElementById("botonVolver").addEventListener("click", mostrarInicio)
+    document.getElementById("btnLogIn").addEventListener("click", chequearCuenta)
+    document.getElementById("btnVolver").addEventListener("click", mostrarInicio)
 }
 
 function chequearCuenta() {
@@ -186,15 +226,15 @@ function mostrarMenu() {
                             <p>Elija una de las opciones para avanzar</p>
                             <p>Gastos Totales: $ ${usuario.gastoTotal}</p>
                             ${gastosHTML}
-                            <button id="verCat">Ver Categorías</button>
-                            <button id="agregarCat">Agregar categoría nueva</button>
-                            <button id="agregarGasto">Agregar gasto nuevo</button>
-                            <button id="cerrarSesion">Cerrar sesión</button>`
+                            <button id="btnVerCat">Ver Categorías</button>
+                            <button id="btnAgregarCat">Agregar categoría nueva</button>
+                            <button id="btnAgregarGasto">Agregar gasto nuevo</button>
+                            <button id="btnCerrarSesion">Cerrar sesión</button>`
 
-    document.getElementById('verCat').addEventListener('click', verCategorias)
-    document.getElementById('agregarCat').addEventListener('click', agregarCategoria)
-    document.getElementById('agregarGasto').addEventListener('click', agregarGasto)
-    document.getElementById('cerrarSesion').addEventListener('click', () => {        
+    document.getElementById('btnVerCat').addEventListener('click', verCategorias)
+    document.getElementById('btnAgregarCat').addEventListener('click', agregarCategoria)
+    document.getElementById('btnAgregarGasto').addEventListener('click', agregarGasto)
+    document.getElementById('btnCerrarSesion').addEventListener('click', () => {        
         confirm('¿Seguro queres salir?') && (localStorage.removeItem('usuarioLoggeado'), mostrarInicio())
     })
 }
