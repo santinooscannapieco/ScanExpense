@@ -5,16 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Agregar categoría - ScanExpense</title>
 </head>
-<body>
-    <h3>Agregar categoría</h3>
-    <p>Ingrese los siguiente datos para crear una categoía nueva</p>
-    <input id="nombreCat" placeholder="Categoría">
-    <input id="gastoCat" placeholder="gasto">
-    <button id="crearCatBtn">Crear categoría</button>
-    <button id="btnVolver">Volver</button>
+<body id="contenedor">
 
+    <div id="container-estructura">
+        <div id="container-menu">
+            <img src="../img/logo_transparent.png" alt="" id="logo-menu">
+            <p id="texto-divisas">MONEDA ACTUAL: <span id="moneda-actual"></span></p>
+            <div id="container-btn">
+                <button id="btnInicio" class="btn-nav">Inicio</button>
+                <button id="btnVerCat" class="btn-nav">Ver Categorías</button>
+                <button id="btnAgregarCat" class="btn-nav boton-presionado">Agregar categoría nueva</button>
+                <button id="btnAgregarGasto" class="btn-nav">Agregar gasto nuevo</button>
+                <button id="btnCerrarSesion" class="btn-nav">Cerrar sesión</button>
+            </div>
+            <p id="texto-divisas">Selecciona la divisa</p>
+            <div id="container-divisa">
+                <select id="divisas">
+                    <option>Divisa</option>
+                    <option value="USD">USD</option>
+                    <option value="ARS">ARS</option>
+                </select>
+                <button id="divisas-btn">Confirmar</button>
+            </div>
+        </div>
+        
+        <div id="container-info">
+            <div id="titulo-info">
+                <h1>AGREGAR CATEGORÍA</h1>
+            </div>
+            <div id="texto-info">
+                <p>Ingrese los siguiente datos para crear una categoría nueva</p>
+                <div id="container-input">
+                    <input id="nombreCat" placeholder="Categoría" class="form-input">
+                    <input id="gastoCat" placeholder="Gasto" class="form-input">
+                    <button id="crearCatBtn" class="form-input">Crear categoría</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../js/agregar-categoria.js"></script>
 </body>
 </html>

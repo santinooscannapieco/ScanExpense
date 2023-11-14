@@ -5,18 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Inicio - ScanExpence</title>
 </head>
-<body>
-    <h3>Bienvenido, <span id="nombre"></span>!</h3>
-    <p>Elija una de las opciones para avanzar</p>
-    <p>Gastos Totales: $ <span id="gastoTotal"></span></p>
-    <span id="gastos"></span>
-    <button id="btnVerCat">Ver Categorías</button>
-    <button id="btnAgregarCat">Agregar categoría nueva</button>
-    <button id="btnAgregarGasto">Agregar gasto nuevo</button>
-    <button id="btnCerrarSesion">Cerrar sesión</button>
-
+<body id="contenedor">
+    <div id="container-estructura">
+        <div id="container-menu">
+            <img src="../img/logo_transparent.png" alt="" id="logo-menu">
+            <p id="texto-divisas">MONEDA ACTUAL: <span id="moneda-actual"></span></p>
+            <div id="container-btn">
+                <button id="btnInicio" class="btn-nav boton-presionado">Inicio</button>
+                <button id="btnVerCat" class="btn-nav">Ver Categorías</button>
+                <button id="btnAgregarCat" class="btn-nav">Agregar categoría nueva</button>
+                <button id="btnAgregarGasto" class="btn-nav">Agregar gasto nuevo</button>
+                <button id="btnCerrarSesion" class="btn-nav">Cerrar sesión</button>
+            </div>
+            <p id="texto-divisas">Selecciona la divisa</p>
+            <div id="container-divisa">
+                <select id="divisas">
+                    <option>Divisa</option>
+                    <option value="USD">USD</option>
+                    <option value="ARS">ARS</option>
+                </select>
+                <button id="divisas-btn">Confirmar</button>
+            </div>
+        </div>
+        
+        <div id="container-info">
+            <div id="titulo-info">
+                <h1>INICIO</h1>
+            </div>
+            <div id="texto-info">
+                <h2>Bienvenido, <span id="nombre"></span>!</h2>
+                <h2>Gastos Totales: $ <span id="gastoTotal"></span></h2>
+                <p>Ultimos gastos:</p>
+                <span id="gastos" class="categoria-gasto"></span>
+            </div>
+        </div>
+    </div>
     <script src="../js/inicio.js"></script>
 </body>
 </html>

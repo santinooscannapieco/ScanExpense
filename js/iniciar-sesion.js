@@ -1,10 +1,11 @@
 class Usuario {
-    constructor(username, password, categorias, gastos) {
+    constructor(username, password, categorias, gastos, moneda) {
         this.username = username
         this.password = password
         this.categorias = categorias
         this.gastoTotal = this.sumarGastoTotal(categorias)
         this.gastos = gastos
+        this.moneda = moneda
     }
 
     sumarCategoria(clave, valor) {            
@@ -70,7 +71,7 @@ function chequearCuenta() {
     })
 
     if (loggedInUser) {
-        usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias, loggedInUser.gastos)
+        usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias, loggedInUser.gastos, loggedInUser.moneda)
         guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
         const Toast = Swal.mixin({
             toast: true,
@@ -87,9 +88,6 @@ function chequearCuenta() {
             icon: "success",
             title: 'Inicio de sesión exitoso.'
           })
-
-          
-
         
         window.location.href = "./inicio.html"
     } else if (loginUsername && loginPassword){
@@ -114,6 +112,7 @@ function guardarLocalStorage(clave,valor) {
         users[indexUsuarioLoggeado].categorias = usuario.categorias
         users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
         users[indexUsuarioLoggeado].gastos = usuario.gastos
+        users[indexUsuarioLoggeado].moneda = usuario.moneda
 
         localStorage.setItem('users', JSON.stringify(users))
     }

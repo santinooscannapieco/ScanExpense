@@ -5,14 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Ver categorias - ScanExpense</title>
 </head>
-<body>
-
-
-    <h3>Categorías</h3><span id="categorias"></span><br>
-    <button id="btnVolver">Volver</button>
-    
+<body id="contenedor">
+    <div id="container-estructura">
+        <div id="container-menu">
+            <img src="../img/logo_transparent.png" alt="" id="logo-menu">
+            <p id="texto-divisas">MONEDA ACTUAL: <span id="moneda-actual"></span></p>
+            <div id="container-btn">
+                <button id="btnInicio" class="btn-nav">Inicio</button>
+                <button id="btnVerCat" class="btn-nav boton-presionado">Ver Categorías</button>
+                <button id="btnAgregarCat" class="btn-nav">Agregar categoría nueva</button>
+                <button id="btnAgregarGasto" class="btn-nav">Agregar gasto nuevo</button>
+                <button id="btnCerrarSesion" class="btn-nav">Cerrar sesión</button>
+            </div>
+            <p id="texto-divisas">Selecciona la divisa</p>
+            <div id="container-divisa">
+                <select id="divisas">
+                    <option>Divisa</option>
+                    <option value="USD">USD</option>
+                    <option value="ARS">ARS</option>
+                </select>
+                <button id="divisas-btn">Confirmar</button>
+            </div>
+        </div>
+        
+        <div id="container-info">
+            <div id="titulo-info">
+                <h1>CATEGORÍAS</h1>
+            </div>
+            <div id="texto-info">
+                <span id="categorias" class="categoria-gasto"></span><br>
+            </div>
+        </div>
+    </div>
     <script src="../js/ver-categorias.js"></script>
 </body>
 </html>

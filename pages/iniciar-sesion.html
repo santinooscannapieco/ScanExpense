@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Iniciar sesión - ScanExpence</title>
 </head>
-<body>
-    <h3>Inicie sesión con su cuenta existente</h3>
-    <input id="loginUsername" placeholder="Nombre" required>
-    <input id="loginPassword" placeholder="Password" required>
-          
-    <button id="btnIniciarSesion">Iniciar sesión</button>
-    <button id="btnVolver">Volver</button>
-
+<body id="contenedor">
+    <div id="contenedor-tarjeta">
+        <div id="tarjeta-logInSignIn">
+            <h3 id="titulo-tarjeta">Inicie sesión con su cuenta existente</h3>
+            <div id="form-tarjeta">
+                <input id="loginUsername" class="item-tarjeta" placeholder="Username" required>
+                <input id="loginPassword" class="item-tarjeta" placeholder="Password" required>
+            </div>
+            <div id="botones-tarjeta" class="item-tarjeta">
+                <button id="btnIniciarSesion" class="btn-confirm">Iniciar sesión</button>
+                <button id="btnVolver" class="btn-vlr">Volver</button>
+            </div>
+            <p id="texto-tarjeta">¿Aún no tienes cuenta?<a href="./registro.html"><b> Registrarme</b></a></p>
+        </div>
+    </div>
     <script src="../js/iniciar-sesion.js"></script>
 </body>
 </html>

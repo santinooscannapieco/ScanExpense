@@ -1,11 +1,11 @@
-// Clase Usuario con sus metodos
 class Usuario {
-    constructor(username, password, categorias, gastos) {
+    constructor(username, password, categorias, gastos, moneda) {
         this.username = username
         this.password = password
         this.categorias = categorias
         this.gastoTotal = this.sumarGastoTotal(categorias)
         this.gastos = gastos
+        this.moneda = moneda
     }
 
     sumarCategoria(clave, valor) {            
@@ -48,16 +48,6 @@ class Usuario {
     }
 }
 
-/*          TRAER PRECIO DOLAR
-let url = 'https://v6.exchangerate-api.com/v6/6eed10f6e4f651030ac76430/latest/USD'
-fetch(url)
-    .then((response) => response.json())
-    .then((json) => {
-        console.log(json)
-        //pantallaDivisas(json)
-    })
-*/
-
 let usuario
 
 let traerUsuario = JSON.parse(localStorage.getItem("usuarioLoggeado")) || ''
@@ -76,11 +66,14 @@ function guardarLocalStorage(clave,valor) {
     let indexUsuarioLoggeado = users.findIndex( function(user) {
         return user.username === usuario.username
     })
+    
+    console.log('index', indexUsuarioLoggeado)
 
     if (indexUsuarioLoggeado !== -1) {
         users[indexUsuarioLoggeado].categorias = usuario.categorias
         users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
         users[indexUsuarioLoggeado].gastos = usuario.gastos
+        users[indexUsuarioLoggeado].moneda = usuario.moneda
 
         localStorage.setItem('users', JSON.stringify(users))
     }

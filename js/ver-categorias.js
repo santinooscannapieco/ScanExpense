@@ -1,10 +1,11 @@
 class Usuario {
-    constructor(username, password, categorias, gastos) {
+    constructor(username, password, categorias, gastos, moneda) {
         this.username = username
         this.password = password
         this.categorias = categorias
         this.gastoTotal = this.sumarGastoTotal(categorias)
         this.gastos = gastos
+        this.moneda = moneda
     }
 
     sumarCategoria(clave, valor) {            
@@ -47,16 +48,122 @@ class Usuario {
     }
 }
 
+
+let url = 'https://v6.exchangerate-api.com/v6/6eed10f6e4f651030ac76430/latest/USD'
+let divisaSeleccionada
+
+let gastoTotalUsuario
+let gastosUsuario
+let gastos
+let categorias
+
+fetch(url)
+    .then((response) => response.json())
+    .then((json) => {
+        const { conversion_rates: {  ARS } } = json
+
+        document.getElementById('divisas-btn').addEventListener('click', () => {
+            divisaSeleccionada = document.getElementById('divisas').value
+
+            switch (divisaSeleccionada) {
+                case 'USD':
+                    if (usuario.moneda === 'ARS') {
+                        usuario.gastoTotal = parseFloat( (usuario.gastoTotal / ARS).toFixed(2) )
+                        usuario.moneda = 'USD'
+
+                        let monedaActual = document.getElementById('moneda-actual')
+                        monedaActual.innerHTML = `${usuario.moneda}`
+
+                        gastos = usuario.gastos
+                        gastosHTML = ''
+
+                        if(gastos.length !== 0) {
+                            for (let gasto of gastos) {
+                                for (let clave in gasto) {
+                                    gasto[clave] = parseFloat( (gasto[clave] / ARS).toFixed(2) )
+                                }
+                            }
+                        }
+                        usuario.gastos = gastos
+
+                        categorias = usuario.categorias
+                        let categoriasHTML = ''
+                        if(categorias.length !== 0) {
+                            for (let categoria of categorias) {
+                                for (let clave in categoria) {
+                                    categoria[clave] = parseFloat( (categoria[clave] / ARS).toFixed(2) )
+                                    categoriasHTML += `<div id="container-cat-gasto"><p>${clave}:</p><p>$ ${categoria[clave]}</p></div>`
+                                }
+                            }
+                        }
+                        usuario.categorias = categorias
+                        let categoriasUsuario = document.getElementById("categorias")
+                        categoriasUsuario.innerHTML = `${categoriasHTML}`
+
+                        guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
+                    }
+                    break
+                case 'ARS':
+                    if (usuario.moneda === 'USD') {
+                        usuario.gastoTotal = parseFloat( (usuario.gastoTotal * ARS, 2).toFixed(2) )
+                        usuario.moneda = 'ARS'
+
+                        let monedaActual = document.getElementById('moneda-actual')
+                        monedaActual.innerHTML = `${usuario.moneda}`
+
+                        gastos = usuario.gastos
+            
+                        if(gastos.length !== 0) {
+                            for (let gasto of gastos) {
+                                for (let clave in gasto) {
+                                    gasto[clave] = parseFloat( (gasto[clave] * ARS).toFixed(2) )
+                                }
+                            }
+                        }
+                        usuario.gastos = gastos
+
+
+                        categorias = usuario.categorias
+                        let categoriasHTML = ''
+                        
+                        if(categorias.length !== 0) {
+                            for (let categoria of categorias) {
+                                for (let clave in categoria) {
+                                    categoria[clave] = parseFloat( (categoria[clave] * ARS).toFixed(2) )
+                                    categoriasHTML += `<div id="container-cat-gasto"><p>${clave}:</p><p>$ ${categoria[clave]}</p></div>`
+                                }
+                            }
+                        }
+                        usuario.categorias = categorias
+
+                        let categoriasUsuario = document.getElementById("categorias")
+                        categoriasUsuario.innerHTML = `${categoriasHTML}`
+
+                        guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario)) 
+                    }
+                    break
+            }
+        })
+    })
+
+
+
 let traerUsuario = JSON.parse(localStorage.getItem("usuarioLoggeado")) || ''
 
-let usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias, traerUsuario.gastos)
-
+let usuario = new Usuario(traerUsuario.username, traerUsuario.password, traerUsuario.categorias, traerUsuario.gastos, traerUsuario.moneda)
 
 verCategorias()
 
 function verCategorias() {
+    document.getElementById('btnInicio').addEventListener('click', () => { window.location.href = "./inicio.html" })
+    document.getElementById('btnAgregarCat').addEventListener('click', () => { window.location.href = "./agregar-categoria.html" })
+    document.getElementById('btnAgregarGasto').addEventListener('click', () => { window.location.href = "./agregar-gasto.html" })
+    document.getElementById('btnCerrarSesion').addEventListener('click', () => {        
+        confirm('¿Seguro queres salir?') && (localStorage.removeItem('usuarioLoggeado'), window.location.href = "../index.html")
+    })
 
-    document.getElementById('btnVolver').addEventListener('click', () => { window.location.href = "./inicio.html" })
+    let monedaActual = document.getElementById('moneda-actual')
+    monedaActual.innerHTML = `${usuario.moneda}`
 
     let categorias = usuario.categorias
     let categoriasHTML = ''
@@ -67,7 +174,7 @@ function verCategorias() {
     } else {
         for (let categoria of categorias) {
             for (let clave in categoria) {
-                categoriasHTML += `<p>${clave}: $ ${categoria[clave]}</p>`
+                categoriasHTML += `<div id="container-cat-gasto"><p>${clave}:</p><p>$ ${categoria[clave]}</p></div>`
             }
         }
     }
@@ -83,18 +190,16 @@ function guardarLocalStorage(clave,valor) {
     let indexUsuarioLoggeado = users.findIndex( function(user) {
         return user.username === usuario.username
     })
-    
-    console.log('index', indexUsuarioLoggeado)
 
     if (indexUsuarioLoggeado !== -1) {
         users[indexUsuarioLoggeado].categorias = usuario.categorias
         users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
         users[indexUsuarioLoggeado].gastos = usuario.gastos
+        users[indexUsuarioLoggeado].moneda = usuario.moneda
 
         localStorage.setItem('users', JSON.stringify(users))
     }
 }
-
 function mostrarAlert(icono, texto, tiempo) {
     if (tiempo != 0) {
         Swal.fire({

@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles.css">
-    <title>Document</title>
+    <title>Registrarse - ScanExpence</title>
 </head>
-<body>
-    <h3>Completá el formulario para crear tu cuenta</h3>
-    <input id="username" placeholder="Nombre" required>    
-    <input id="password" placeholder="Password" required>
-
-    <button id="btnRegistrar">Registrarme</button>
-    <button id="btnVolver">Volver</button>
-
+<body id="contenedor">
+    <div id="contenedor-tarjeta">
+        <div id="tarjeta-logInSignIn">
+            <h3 id="titulo-tarjeta">Completá el formulario para crear tu cuenta</h3>
+            <div id="form-tarjeta">
+                <input id="username" class="item-tarjeta" placeholder="Username" required>    
+                <input id="password" class="item-tarjeta" placeholder="Password" required>
+            </div>
+            <div id="botones-tarjeta" class="item-tarjeta">
+                <button id="btnRegistrar" class="btn-confirm">Registrarme</button>
+                <button id="btnVolver" class="btn-vlr">Volver</button>
+            </div>
+            <p id="texto-tarjeta">Ya tengo cuenta.<a href="./iniciar-sesion.html"><b> Iniciar Sesión</b></a></p>
+        </div>
+    </div>
     <script src="../js/registro.js"></script>
 </body>
 </html>

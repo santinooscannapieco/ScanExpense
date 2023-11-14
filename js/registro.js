@@ -1,10 +1,11 @@
 class Usuario {
-    constructor(username, password, categorias, gastos) {
+    constructor(username, password, categorias, gastos, moneda) {
         this.username = username
         this.password = password
         this.categorias = categorias
         this.gastoTotal = this.sumarGastoTotal(categorias)
         this.gastos = gastos
+        this.moneda = moneda
     }
 
     sumarCategoria(clave, valor) {            
@@ -67,20 +68,20 @@ function crearCuenta() {
     })
 
     if (existingUser) {
-        mostrarAlert('error', 'El usuario ya existe. Por favor, elige otro nombre de usuario.', 1000)
+        mostrarAlert('error', 'El usuario ya existe. Por favor, elige otro nombre de usuario.', 1500)
         return
     } else if (username && password){
         // Si el usuario no existe, lo registramos
-        usuario = new Usuario(username, password, [], [])
+        usuario = new Usuario(username, password, [], [], 'USD')
         guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
 
         users.push(usuario)
 
         guardarLocalStorage('users', JSON.stringify(users))
-        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 1000)
+        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 1500)
         window.location.href = "./inicio.html"
     } else {
-        mostrarAlert('warning', 'Completa los campos', 1000)
+        mostrarAlert('warning', 'Completa los campos', 1500)
     }
 }
 
@@ -99,6 +100,7 @@ function guardarLocalStorage(clave,valor) {
         users[indexUsuarioLoggeado].categorias = usuario.categorias
         users[indexUsuarioLoggeado].gastoTotal = usuario.gastoTotal
         users[indexUsuarioLoggeado].gastos = usuario.gastos
+        users[indexUsuarioLoggeado].moneda = usuario.moneda
 
         localStorage.setItem('users', JSON.stringify(users))
     }

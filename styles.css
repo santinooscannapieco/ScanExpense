@@ -40,6 +40,7 @@
 #header #container-logInSignIn #btnSignIn {
     padding-right: 5px;
     padding-left: 5px;
+    margin: 0 10px;
     height: 50px;
     border-radius: 10px;
     border: none;
@@ -123,4 +124,175 @@
     margin: 5px 25px;
     color: white;
     text-decoration: underline;
+}
+
+#contenedor-tarjeta {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    
+    background-color: #4F6F52;
+}
+
+#tarjeta-logInSignIn {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 500px;
+    height: 450px;
+    padding: 30px;
+    border: black solid;
+    border-radius: 20px;
+    background-color: #ECE3CE;
+}
+
+#tarjeta-logInSignIn #titulo-tarjeta {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+#tarjeta-logInSignIn .item-tarjeta {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 23px;
+}
+
+#tarjeta-logInSignIn #botones-tarjeta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    bottom: 0;
+}
+
+#tarjeta-logInSignIn #botones-tarjeta button {
+    font-size: 23px;
+}
+
+#tarjeta-logInSignIn #botones-tarjeta .btn-confirm {
+    width: 150px;
+}
+
+#tarjeta-logInSignIn #botones-tarjeta .btn-vlr {
+    width: 100px;
+}
+
+#tarjeta-logInSignIn #texto-tarjeta {
+    text-align: center;
+}
+
+#container-estructura {
+    display: flex;
+    flex-direction: row;
+}
+
+#container-estructura #container-menu {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 100vh;
+    background-color: #4F6F52;
+    text-align: center;
+}
+
+#logo-menu {
+    width: 300px;
+    padding: 20px;
+}
+
+#container-divisa {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#texto-divisas {
+    color: white;
+    margin-bottom: 5px;
+}
+
+#divisas {
+    font-size: 20px;
+    margin-right: 30px;
+    width: 80px;
+}
+
+#divisas-btn {
+    width: 80px;
+    font-size: 15px;
+}
+
+#container-btn {
+    display: flex;
+    flex-direction: column;
+}
+
+#container-menu .btn-nav {
+    height: 100px;
+    margin: 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: #3A4D39;
+}
+
+.boton-presionado {
+    background-color: #3A4D39;
+}
+
+#container-info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 1620px;
+    
+}
+
+#container-info #titulo-info {
+    font-size: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#container-info #texto-info {
+    font-size: 30px;
+}
+
+#container-info #texto-info h2 {
+    margin: 10px 0;
+}
+
+#container-info #texto-info .categoria-gasto {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+}
+
+#container-cat-gasto {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+#container-input {
+    display: flex;
+    flex-direction: column;
+}
+
+#texto-info p {
+    margin-bottom: 40px;
+}
+
+#container-input .form-input {
+    font-size: 18px;
+    margin-bottom: 20px;
+    height: 40px;
+    width: 874px;
 }
