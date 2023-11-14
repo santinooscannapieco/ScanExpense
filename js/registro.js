@@ -78,7 +78,7 @@ function crearCuenta() {
         users.push(usuario)
 
         guardarLocalStorage('users', JSON.stringify(users))
-        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 1500)
+        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 2000)
         window.location.href = "./inicio.html"
     } else {
         mostrarAlert('warning', 'Completa los campos', 1500)

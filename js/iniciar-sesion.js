@@ -73,21 +73,8 @@ function chequearCuenta() {
     if (loggedInUser) {
         usuario = new Usuario(loggedInUser.username, loggedInUser.password, loggedInUser.categorias, loggedInUser.gastos, loggedInUser.moneda)
         guardarLocalStorage('usuarioLoggeado', JSON.stringify(usuario))
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            }
-          })
-          Toast.fire({
-            icon: "success",
-            title: 'Inicio de sesión exitoso.'
-          })
+        
+        mostrarAlert('success', `Felicitaciones ${usuario.username} se completó tu registro`, 1500)
         
         window.location.href = "./inicio.html"
     } else if (loginUsername && loginPassword){
